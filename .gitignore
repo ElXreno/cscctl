@@ -1,0 +1,8 @@
+/result
+/result-*
+/cscctl
+/dist/
+*.test
+*.out
+.direnv/
+/vendor/

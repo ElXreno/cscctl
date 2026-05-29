@@ -1,0 +1,41 @@
+version: 2
+project_name: cscctl
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: cscctl
+    main: .
+    binary: cscctl
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - CHANGELOG.md
+
+nfpms:
+  - id: packages
+    package_name: cscctl
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    maintainer: "cscctl maintainers"
+    description: "Samsung Galaxy CSC changer for Linux"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+
+release:
+  use_existing_draft: true
