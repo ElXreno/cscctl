@@ -22,7 +22,7 @@
             src = self;
             subPackages = [ "." ];
 
-            vendorHash = "sha256-KkDKZitPCBlKd5O1LOOT/aE5wHOsY6jznkPSQJ7jVQI=";
+            vendorHash = "sha256-MeFvdVIl7uZ/HtjeN5MdNjfOA2uXe01q8oDBRzGSIVU=";
 
             meta.mainProgram = "cscctl";
           };
