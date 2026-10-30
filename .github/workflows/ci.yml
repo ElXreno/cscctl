@@ -8,6 +8,7 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,14 +36,42 @@ jobs:
 
   nix-build:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+    env:
+      RENOVATE: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RENOVATE == 'true' && github.head_ref || '' }}
 
       - name: install nix
         uses: cachix/install-nix-action@v31
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+
+      - name: update vendorHash
+        if: env.RENOVATE == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          fake=sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+          sed -i "s|vendorHash = \"sha256-[^\"]*\";|vendorHash = \"$fake\";|" flake.nix
+          hash=$(nix build 2>&1 | sed -n 's/^ *got: *//p')
+          if [ -n "$hash" ]; then
+            sed -i "s|$fake|$hash|" flake.nix
+          else
+            git checkout flake.nix
+          fi
+          if ! git diff --quiet flake.nix; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898299+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'chore(deps): update vendorHash' flake.nix
+            git push
+            gh workflow run ci.yml --ref "$GITHUB_HEAD_REF"
+          fi
 
       - name: nix build
         run: nix build
