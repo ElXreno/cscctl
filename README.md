@@ -9,7 +9,9 @@ Change the region code (**CSC**) on Samsung Galaxy phones from Linux - no Window
 Samsung phones carry a **CSC** (Consumer Software Customization) code that selects region features, network/IMS profiles, and which OTA track the device follows. Region-locked features such as native call recording sit behind it. `cscctl` flips the *active* CSC in place over the phone's USB modem interface - the same thing Windows tools like SamFW do, but open-source, scriptable, and native to Linux.
 
 > [!WARNING]
-> Changing your CSC is unofficial and unsupported by Samsung. It does not trip Knox and does not wipe data, but switching regions swaps your network/IMS profiles - always test calls and VoLTE afterwards, and be ready to revert. Use at your own risk.
+> Changing your CSC is unofficial and unsupported by Samsung. `cscctl` itself does not trip Knox or wipe data, but switching regions swaps your network/IMS profiles - always test calls and VoLTE afterwards, and be ready to revert. Use at your own risk.
+>
+> User data has been kept on every device tested so far, including firmware that reports `ro.omc.changetype=DATA_RESET_ON,TRUE`. Samsung firmware varies across models and releases, though, so a wipe on an untested device cannot be ruled out. **Back up before changing the CSC.**
 
 ## Features
 
