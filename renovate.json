@@ -5,7 +5,6 @@
     "41898299+github-actions[bot]@users.noreply.github.com"
   ],
   "postUpdateOptions": ["gomodTidy"],
-  "platformAutomerge": false,
   "automergeStrategy": "squash",
   "nix": {
     "enabled": true
