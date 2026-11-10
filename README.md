@@ -29,6 +29,7 @@ Samsung phones carry a **CSC** (Consumer Software Customization) code that selec
 | Galaxy S25 Ultra | SM-S938B | `EUX` -> `XXV` |
 | Galaxy S23 | SM-S911B | `EUX` -> `XXV` |
 | Galaxy A54 5G | SM-A546E | `FWD` -> `EGY` |
+| Galaxy S21+ 5G | SM-G996B | `XEF` -> `XXV` |
 
 All via the no-flash AT method (no `3GPP AT commands` toggle or `*#0*#` dialer code needed); the change persisted after reboot.
 
