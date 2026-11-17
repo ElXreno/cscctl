@@ -92,6 +92,10 @@ cd cscctl
 go build -o cscctl .
 ```
 
+### Windows (untested)
+
+Releases also carry a `windows_amd64` build. It compiles from the same code but has not been run on a real Windows host, so pass the modem port yourself (`cscctl.exe info --port COM3`) and please report how it goes.
+
 ## Quick start
 
 ```console
@@ -177,6 +181,7 @@ AT+CFUN=1,1            (reboot)
 ## Troubleshooting
 
 - **`no Samsung serial port found`** - set USB to File transfer (MTP), replug, and confirm you are in the `dialout` group (`cscctl doctor`). Pass `--port /dev/ttyACM0` to override autodetect.
+- **`+CME Error:PACM(AP),NOT_ALLOWED_SLO`** - the phone answers this while its screen is locked. Unlock it, keep the screen on (Developer options > Stay awake), and retry.
 - **CSC reverts after reboot** - your firmware blocked the in-place change; flash the target region's `HOME_CSC` with [Thor](https://github.com/Samsung-Loki/Thor) or odin4 instead (still no wipe).
 - **No VoLTE / Wi-Fi calling after switching** - revert with `cscctl set <OLD_CSC>`; some regions' IMS profiles do not match every carrier.
 - **`cscctl list` fails** - it needs `adb` with USB debugging enabled and the host authorized.

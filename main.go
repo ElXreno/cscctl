@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
+	"runtime"
 	"sort"
 	"strings"
 	"time"
@@ -219,10 +220,12 @@ func doctorCmd() *cobra.Command {
 			} else {
 				fmt.Printf("[--] %v\n", err)
 			}
-			if inGroup("dialout") {
-				fmt.Println("[ok] user is in the 'dialout' group")
-			} else {
-				fmt.Println("[--] user is not in 'dialout' (serial access needs it, or run with sudo)")
+			if runtime.GOOS == "linux" {
+				if inGroup("dialout") {
+					fmt.Println("[ok] user is in the 'dialout' group")
+				} else {
+					fmt.Println("[--] user is not in 'dialout' (serial access needs it, or run with sudo)")
+				}
 			}
 			if _, err := exec.LookPath("adb"); err == nil {
 				fmt.Println("[ok] adb found (enables 'cscctl list')")
