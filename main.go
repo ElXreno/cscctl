@@ -17,7 +17,7 @@ import (
 	"github.com/ElXreno/cscctl/internal/device"
 )
 
-const version = "0.1.0" // x-release-please-version
+const version = "0.2.0" // x-release-please-version
 
 func main() {
 	if err := rootCmd().Execute(); err != nil {
